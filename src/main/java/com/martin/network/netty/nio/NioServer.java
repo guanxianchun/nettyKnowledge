@@ -1,10 +1,4 @@
 package com.martin.network.netty.nio;
-/*
- * @author 管贤春
- * @date 2017年12月14日 上午11:37:07
- * @email psyche19830113@163.com
- */
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -13,7 +7,25 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
-
+/**
+ * 
+ * @Description 
+ * @author 管贤春
+ * @date 2017年12月15日 下午3:32:01
+ * @email psyche19830113@163.com
+ * 
+ * NIO服务器端的开发步骤：
+ * 	1. 创建ServerSocketChannel对象，配置为非阻塞模式
+ *  2. 绑定监听端口 配置TCP参数
+ *  3. 创建Selector，将之前创建的ServerSocketChannel注册到Selector上，监听SelectionKey.ACCEPT
+ *  4. 执行selector.select()方法，轮询就绪的Channel
+ *  5. 当轮询到就绪的Channel时，对其进行判断，如果是OP_ACCEPT状态，说明有新客户端接入，则调用ServerSocketChannel的
+ *     accept()方法接受新的客户端
+ *  6. 设置新接入的客户端链路为非阻塞模式，可配置其他一些TCP参数
+ *  7. 将SocketChannel注册到Selector上，监听OP_READ操作位
+ *  8. 如果轮询到Channel为OP_READ，则说明SocketChannel中有的新就绪数据包需要读取，则构造ByteBuffere对象,读取数据包
+ *  9. 如果轮询到Channel为OP_WRITE,则说明还有数据没有发送完成，需要继续发送
+ */
 public class NioServer {
 
 	// 通道管理器
@@ -24,8 +36,8 @@ public class NioServer {
 		ServerSocketChannel channel = ServerSocketChannel.open();
 		// 设置为非阻塞模式
 		channel.configureBlocking(false);
-		// 绑定服务监听端口
-		channel.socket().bind(new InetSocketAddress(port));
+		// 绑定服务监听端口,并设置TCP参数 backlog=1024
+		channel.socket().bind(new InetSocketAddress(port),1024);
 		// 获取一个通道管理器
 		this.selector = Selector.open();
 		// 将通道管理器与通道绑定,并为该通道注册SelectionKey.OP_ACCEPT事件
