@@ -19,10 +19,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 		ByteBuf buf = (ByteBuf) msg;
 		byte[] req = new byte[buf.readableBytes()];
 		buf.readBytes(req);
+		buf.release();
 		String body = new String(req, "UTF-8");
-		System.out.println("服务器收到消息内容："+body);
+		System.out.println("server receive ："+body);
 		//将收到的消息发送给客户端
-		body+="服务器发送消息:"+body;
+		body="server echo message :"+body;
 		/**
 		 * 从性能考虑，为防止频繁的唤醒Selector进行消息发送，Netty的write方法并不直接将消息写入到SocketChannel中
 		 * 它只是把消息放到发送缓冲区中，再通过调用flush方法，将缓冲区中的消息全部写到SocketChannel中
@@ -41,7 +42,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 		/**
 		 * 发生了异常，关闭ChannelHandlerContext，释放和ChannelHandlerContext相关联的句柄等资源
 		 */
-		System.err.println("");
+		System.err.println("发生异常时，该方法被调用："+cause.getMessage());
 		ctx.close();
 	}
 

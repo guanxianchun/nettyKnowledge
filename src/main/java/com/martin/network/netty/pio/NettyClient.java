@@ -1,6 +1,7 @@
 package com.martin.network.netty.pio;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
@@ -31,6 +32,7 @@ public class NettyClient {
 			bootstrap.group(group)
 				.channel(NioSocketChannel.class)
 				.option(ChannelOption.TCP_NODELAY, true)
+				.option(ChannelOption.SO_KEEPALIVE, true)
 				.handler(new ChannelInitializer<SocketChannel>() {
 					@Override
 					protected void initChannel(SocketChannel ch) throws Exception {
@@ -41,6 +43,7 @@ public class NettyClient {
 			//发起异步连接操作
 			ChannelFuture future = bootstrap.connect(host, port).sync();
 			//异步等待客户端的链路关闭
+			
 			future.channel().closeFuture().sync();
 			
 		}finally {
