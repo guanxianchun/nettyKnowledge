@@ -12,6 +12,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 
+import com.martin.network.netty.bean.User;
 import com.martin.network.netty.common.MarshallingCodeFactory;
 
 public class NettyUserClient {
@@ -73,7 +74,19 @@ public class NettyUserClient {
 		public void channelActive(ChannelHandlerContext ctx) throws Exception {
 			System.out.println("channel active ..........");
 			//通道连接成功后发送一个消息数据
-			ctx.writeAndFlush(new User("gxc", 35, 1));
+			//模拟粘包和拆包情况
+			int count = 5;
+			while (count>=0) {
+				ctx.write(new User("gxc_"+count, 35, 1));
+				count-=1;
+			}
+			ctx.flush();
+			count = 10000;
+			while (count>=0) {
+				ctx.write(new User("gxc_"+count, 35, 1));
+				count-=1;
+			}
+			ctx.flush();
 		}
 
 		@Override

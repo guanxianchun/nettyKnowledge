@@ -8,6 +8,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 
 /*
  * @author 管贤春
@@ -34,7 +38,11 @@ public class NettyClient {
 				.handler(new ChannelInitializer<SocketChannel>() {
 					@Override
 					protected void initChannel(SocketChannel ch) throws Exception {
-						ch.pipeline().addLast(new NettyClientHandler());
+						ch.pipeline()
+							.addLast(new LineBasedFrameDecoder(1024)) //处理TCP/UDP的拆包和粘包
+							.addLast(new StringDecoder())
+							.addLast(new ReadTimeoutHandler(30))
+							.addLast(new NettyClientHandler());
 						
 					}
 				});

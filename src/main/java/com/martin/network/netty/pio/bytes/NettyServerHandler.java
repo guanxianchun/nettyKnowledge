@@ -1,7 +1,6 @@
 package com.martin.network.netty.pio.bytes;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -12,10 +11,14 @@ import io.netty.channel.ChannelHandlerContext;
  * @email psyche19830113@163.com
  */
 public class NettyServerHandler extends ChannelHandlerAdapter {
+	/**
+	 * 处理TCP粘包和拆包
+	 */
+	private void processPackageSplice(ChannelHandlerContext ctx,Object msg) {
+		System.out.println("server receive message :"+msg);
+	}
 	
-	@Override
-	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		System.out.println("-->"+Thread.currentThread().getName());
+	private void processStream(ChannelHandlerContext ctx,Object msg) throws Exception {
 		//服务器从缓存中读取客户端发送过来的数据
 		ByteBuf buf = (ByteBuf) msg;
 		byte[] req = new byte[buf.readableBytes()];
@@ -23,13 +26,14 @@ public class NettyServerHandler extends ChannelHandlerAdapter {
 		buf.release();
 		String body = new String(req, "UTF-8");
 		System.out.println("server receive ："+body);
-		//将收到的消息发送给客户端
-		body="server echo message :"+body;
-		/**
-		 * 从性能考虑，为防止频繁的唤醒Selector进行消息发送，Netty的write方法并不直接将消息写入到SocketChannel中
-		 * 它只是把消息放到发送缓冲区中，再通过调用flush方法，将缓冲区中的消息全部写到SocketChannel中
-		 */
-		ctx.write(Unpooled.copiedBuffer(body.getBytes()));
+	}
+	@Override
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		System.out.println("-->"+Thread.currentThread().getName());
+		//TCP粘包和拆包数据接收处理
+		this.processPackageSplice(ctx,msg);
+		//处理流数据
+//		this.processStream(ctx,msg);
 	}
 	
 	@Override

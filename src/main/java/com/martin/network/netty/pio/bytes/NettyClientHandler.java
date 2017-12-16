@@ -5,6 +5,8 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
+import com.martin.network.netty.bean.User;
+
 /*
  * @author 管贤春
  * @date 2017年12月15日 下午4:06:32
@@ -36,13 +38,30 @@ public class NettyClientHandler extends ChannelHandlerAdapter {
 		System.out.println("client receive message:"+new String(readByte, "UTF-8"));
 	}
 	
+	private void sendJsonData(ChannelHandlerContext ctx) {
+		int count = 50;
+		String message = "";
+		while(count>=0){
+			message = new User("martion-"+count, count, 1)+System.getProperty("line.separator");
+			ctx.write(Unpooled.copiedBuffer(message.getBytes()));
+			count-=1;
+		}
+		ctx.flush();
+	}
+	
+	private void sendByteData(ChannelHandlerContext ctx) {
+		String message ="Hello World..";
+		ctx.writeAndFlush(Unpooled.copiedBuffer(message.getBytes()));
+	}
+	
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("channel active ..........");
-		ctx.writeAndFlush(Unpooled.copiedBuffer("Hello World".getBytes()));
-		//下面是添加一个监听器，当ChannelFuture完成时关闭channel
-//		.addListener(ChannelFutureListener.CLOSE);
+		//下面的while是模拟拆包、粘包情况
+		this.sendJsonData(ctx);
+		//发送流数据
+//		this.sendByteData(ctx);
 	}
 	
 	@Override

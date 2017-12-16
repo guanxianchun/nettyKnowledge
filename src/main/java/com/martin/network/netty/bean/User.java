@@ -1,4 +1,4 @@
-package com.martin.network.netty.pio.object;
+package com.martin.network.netty.bean;
 
 import java.io.Serializable;
 

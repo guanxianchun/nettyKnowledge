@@ -8,6 +8,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 
 /*
  * @author 管贤春
@@ -50,7 +53,10 @@ public class NettyServer {
 		@Override
 		protected void initChannel(SocketChannel channel) throws Exception {
 			//添加消息处理类
-			channel.pipeline().addLast(new NettyServerHandler());
+			channel.pipeline()
+				.addLast(new LineBasedFrameDecoder(1024)) //处理TCP/UDP的拆包和粘包
+				.addLast(new StringDecoder())
+				.addLast(new NettyServerHandler());
 		}
 	}
 	
