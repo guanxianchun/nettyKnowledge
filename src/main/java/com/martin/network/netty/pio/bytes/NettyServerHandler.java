@@ -1,4 +1,4 @@
-package com.martin.network.netty.pio;
+package com.martin.network.netty.pio.bytes;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -15,6 +15,7 @@ public class NettyServerHandler extends ChannelHandlerAdapter {
 	
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		System.out.println("-->"+Thread.currentThread().getName());
 		//服务器从缓存中读取客户端发送过来的数据
 		ByteBuf buf = (ByteBuf) msg;
 		byte[] req = new byte[buf.readableBytes()];

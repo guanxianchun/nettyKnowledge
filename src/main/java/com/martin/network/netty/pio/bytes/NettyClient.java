@@ -1,9 +1,7 @@
-package com.martin.network.netty.pio;
+package com.martin.network.netty.pio.bytes;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;

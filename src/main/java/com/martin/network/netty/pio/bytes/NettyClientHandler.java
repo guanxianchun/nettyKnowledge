@@ -1,4 +1,4 @@
-package com.martin.network.netty.pio;
+package com.martin.network.netty.pio.bytes;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -11,8 +11,6 @@ import io.netty.channel.ChannelHandlerContext;
  * @email psyche19830113@163.com
  */
 public class NettyClientHandler extends ChannelHandlerAdapter {
-	
-	private String message = "Hello World!";
 	
 	public NettyClientHandler() {
 		// TODO Auto-generated constructor stub
