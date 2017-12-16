@@ -2,8 +2,8 @@ package com.martin.network.netty.pio;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /*
  * 服务器消息处理类
@@ -11,7 +11,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * @date 2017年12月14日 下午2:45:30
  * @email psyche19830113@163.com
  */
-public class NettyServerHandler extends ChannelInboundHandlerAdapter {
+public class NettyServerHandler extends ChannelHandlerAdapter {
 	
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {

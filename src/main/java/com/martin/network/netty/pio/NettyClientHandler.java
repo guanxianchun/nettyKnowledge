@@ -1,22 +1,16 @@
 package com.martin.network.netty.pio;
 
-import java.net.SocketAddress;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.ChannelOutboundHandlerAdapter;
-import io.netty.channel.ChannelPromise;
-import io.netty.channel.SimpleChannelInboundHandler;
 
 /*
  * @author 管贤春
  * @date 2017年12月15日 下午4:06:32
  * @email psyche19830113@163.com
  */
-public class NettyClientHandler extends ChannelInboundHandlerAdapter {
+public class NettyClientHandler extends ChannelHandlerAdapter {
 	
 	private String message = "Hello World!";
 	
