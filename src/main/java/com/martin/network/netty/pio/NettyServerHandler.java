@@ -41,6 +41,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 		/**
 		 * 发生了异常，关闭ChannelHandlerContext，释放和ChannelHandlerContext相关联的句柄等资源
 		 */
+		System.err.println("");
 		ctx.close();
 	}
 
