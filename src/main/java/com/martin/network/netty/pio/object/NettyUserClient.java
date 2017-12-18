@@ -13,7 +13,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 
 import com.martin.network.netty.bean.User;
-import com.martin.network.netty.common.MarshallingCodeFactory;
+import com.martin.network.netty.codec.MarshallingCodeFactory;
 
 public class NettyUserClient {
 	/**

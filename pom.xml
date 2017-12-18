@@ -15,6 +15,7 @@
 		<netty.version>5.0.0.Alpha2</netty.version>
 		<junit.version>4.12</junit.version>
 		<marshalling.version>1.4.11.Final</marshalling.version>
+		<msgpack.version>0.6.12</msgpack.version>
 	</properties>
 
 	<dependencies>
@@ -41,12 +42,19 @@
 			<artifactId>jboss-marshalling-serial</artifactId>
 			<version>${marshalling.version}</version>
 		</dependency>
+
+		<!-- MessagePack 编解码包 -->
+		<dependency>
+			<groupId>org.msgpack</groupId>
+			<artifactId>msgpack</artifactId>
+			<version>${msgpack.version}</version>
+		</dependency>
 		
 		<!-- json包 -->
 		<dependency>
-		    <groupId>org.json</groupId>
-		    <artifactId>json</artifactId>
-		    <version>20171018</version>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20171018</version>
 		</dependency>
 	</dependencies>
 
